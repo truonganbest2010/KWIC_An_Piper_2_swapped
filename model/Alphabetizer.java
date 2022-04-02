@@ -1,46 +1,44 @@
 package model;
-
-
 public class Alphabetizer {
 
-    public void readChar(SharedData sharedData) {
-        int index;
-        int i = 0;
+    public void alphabetize(SharedData sharedData) {
+        sharedData.alphabetizedIndex =  sharedData.index;
+        sort(sharedData);
 
-        while(sharedData.index[i] != null) { // might have specify Index.first != null
-                index = ((sharedData.index[i].first) +  (sharedData.index[i].offset));
-                char a = sharedData.Characters[index];
-                char b = sharedData.Characters[index++];
+    }
+
+    public void sort(SharedData sharedData) {
+        int index1;
+        int index2;
+
+        char a;
+        char b;
+        int i = 0;
+        int j = 0;
+
+        while(sharedData.alphabetizedIndex[i+1] != null) {
+            while(sharedData.alphabetizedIndex[j+1] != null) {
+                index1 = ((sharedData.alphabetizedIndex[j].first) +  (sharedData.alphabetizedIndex[j].offset));
+                index2 = ((sharedData.alphabetizedIndex[j+1].first) +  (sharedData.alphabetizedIndex[j+1].offset));
+
+                a = Character.toLowerCase(sharedData.Characters[index1]);
+                b = Character.toLowerCase(sharedData.Characters[index2]);
 
                 //System.out.println(a);
                 //System.out.println(b);
 
-                // sort
-                if(a < b) {
-                    Index temp = sharedData.index[i];
-                    sharedData.index[i] = sharedData.index[i+1];
-                    sharedData.index[i+1] = temp;
+                if(a > b) {
+                    //System.out.println("SWAPPED " + a + " AND " + b);
+    
+                    Index temp = sharedData.alphabetizedIndex[j];
+                    sharedData.alphabetizedIndex[j] = sharedData.alphabetizedIndex[j+1];
+                    sharedData.alphabetizedIndex[j+1] = temp;
+
                 }
-
-                
-                i++;
+                j++;
+            }
+            i++;
         }
-        
-
-    }
-
-    public void readIndex() {
-
-    }
-
-    public void alphabetize() {
-        // i = first + offset : index of first char of each line
-
-        // while next entry in index != null
-        // read the char value of characters[first + offset of index]
-
-        // sort entries alphabetically
-
 
     }
     

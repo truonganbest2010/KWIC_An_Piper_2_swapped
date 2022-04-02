@@ -21,8 +21,8 @@ public class MasterControl {
 
         input.read(userInput, sharedData);
         circularShift.prepare(sharedData);
-        alphabetizer.readChar(sharedData);
-        //output.write();
+        alphabetizer.alphabetize(sharedData);
+        output.readChars(sharedData, kwic);
     }
 
     /*private void input(String userInput) {
