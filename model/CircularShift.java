@@ -33,8 +33,7 @@ public class CircularShift {
         }
 
        /*for(int i=0; i < sharedData.index.length; i++) {
-            System.out.println(sharedData.index[i].first);
-            System.out.println(sharedData.index[i].offset);
+            System.out.println(sharedData.index[i].first + " " + sharedData.index[i].offset);
         }*/
     }
 }
