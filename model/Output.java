@@ -11,7 +11,7 @@ public class Output {
         int i = 0;
 
         while (sharedData.alphabetizedIndex[i] != null) {
-            i = filterNoise(sharedData, i); // filter noise words
+            //i = filterNoise(sharedData, i); // filter noise words
             int index1 = ((sharedData.alphabetizedIndex[i].first) + (sharedData.alphabetizedIndex[i].offset));
             int index2 = (sharedData.alphabetizedIndex[i].first);
 
@@ -66,7 +66,7 @@ public class Output {
     }
 
     public void print(KWIC panel) {
-
+        //outGUI += (i+1) + ". " + lines[i] + "\n\n";
         //System.out.print(outGUI);
 
         panel.getTextOutputArea().setText("");
