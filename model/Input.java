@@ -1,18 +1,16 @@
 package model;
 
+import view.KWIC;
+
 public class Input {
 
-    public void read(String userInput, SharedData sharedData) {
-        // Filter out all symbols aside from alphabet characters and spaces
-        userInput = userInput.replaceAll("[^a-zA-Z\\s]", "");
+    public void read(KWIC kwic, LineStorage lineStorage) {
 
-        // eliminate input 
+        String userInput = kwic.getTextInputArea().getText().replaceAll("[^a-zA-Z\\s]", "");
 
-        store(userInput, sharedData);
+        for (var s : userInput.split("\\r?\\n|\\r")) {
+            lineStorage.addLine(s.split(" "));
+        }
+
     }
-
-    public void store(String userInput, SharedData sharedData) {
-        sharedData.Characters = userInput.toCharArray();
-    }
-    
 }

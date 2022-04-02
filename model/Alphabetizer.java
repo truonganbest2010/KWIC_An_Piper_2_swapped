@@ -2,95 +2,71 @@ package model;
 
 public class Alphabetizer {
 
-    public void alphabetize(SharedData sharedData) {
-        sharedData.alphabetizedIndex = sharedData.index;
-        // sort(sharedData);
-        test(sharedData);
+    private CircularShifter circularShifter;
 
-    }
+    private int sortedIndex[];
 
-    public void sort(SharedData sharedData) {
-        // LOOK AT TEST() FUNCTION
-        
-        /*int index1;
-        int index2;
+    public void init(CircularShifter cs) {
+        circularShifter = cs;
+        sortedIndex = new int[circularShifter.getLineCount()];
 
-        Index temp;
-
-        char a;
-        char b;
-        int i = 0;
-        int j = 1;
-
-        // sharedData.alphabetizedIndex[i] != null
-        while (sharedData.alphabetizedIndex[i] != null) {
-            while (sharedData.alphabetizedIndex[j + 1] != null) {
-                index1 = ((sharedData.alphabetizedIndex[j - 1].first) + (sharedData.alphabetizedIndex[j - 1].offset));
-                index2 = ((sharedData.alphabetizedIndex[j].first) + (sharedData.alphabetizedIndex[j].offset));
-
-                a = Character.toLowerCase(sharedData.Characters[index1]);
-                b = Character.toLowerCase(sharedData.Characters[index2]);
-
-                // System.out.println(a);
-                // System.out.println(b);
-
-                if (Character.toLowerCase(a) == Character.toLowerCase(b)) {
-
-                }
-
-                if (a > b) {
-                    System.out.println("SWAPPED " + a + " AND " + b);
-
-                    temp = sharedData.alphabetizedIndex[j];
-                    sharedData.alphabetizedIndex[j] = sharedData.alphabetizedIndex[j - 1];
-                    sharedData.alphabetizedIndex[j - 1] = temp;
-
-                }
-                j++;
-            }
-            i++;
-        }*/
-
-    }
-
-    public void test(SharedData sharedData) {
-        int n = 1000;
-        Index temp;
-
-        int index1;
-        int index2;
-
-        char a;
-        char b;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 1; j < (n - i); j++) {
-                if (sharedData.alphabetizedIndex[i] == null) {
-                    return;
-                }
-                if (sharedData.alphabetizedIndex[j] == null) {
-                    j = 1;
-                    i++;
-                }
-
-                System.out.println("i= " + i + " j= " + j);
-
-                index1 = ((sharedData.alphabetizedIndex[j - 1].first)
-                        + (sharedData.alphabetizedIndex[j - 1].offset));
-                index2 = ((sharedData.alphabetizedIndex[j].first) + (sharedData.alphabetizedIndex[j].offset));
-
-                a = Character.toLowerCase(sharedData.Characters[index1]);
-                b = Character.toLowerCase(sharedData.Characters[index2]);
-
-                if (a > b) {
-                    // swap elements
-                    temp = sharedData.alphabetizedIndex[j];
-                    sharedData.alphabetizedIndex[j] = sharedData.alphabetizedIndex[j - 1];
-                    sharedData.alphabetizedIndex[j - 1] = temp;
-                }
-
-            }
+        // Initialize sortedIndex array
+        for (int i = 0; i < sortedIndex.length; i++) {
+            sortedIndex[i] = i;
         }
+
+        // Heap sort to sort the shifts in alphabetically order and insensitive_case
+        for (int i = (sortedIndex.length / 2 - 1); i >= 0; i--)
+            shiftDown(i, sortedIndex.length);
+
+        for (int i = (sortedIndex.length - 1); i >= 1; i--) {
+            int tmp = sortedIndex[0];
+            sortedIndex[0] = sortedIndex[i];
+            sortedIndex[i] = tmp;
+            shiftDown(0, i);
+        }
+
+    }
+
+    // Heap Sort
+    private void shiftDown(int root, int bottom) {
+
+        int maxChild = root * 2 + 1;
+
+        while (maxChild < bottom) {
+
+            if ((maxChild + 1) < bottom && circularShifter.getLineAsString(sortedIndex[maxChild + 1]).toUpperCase()
+                    .compareTo(circularShifter.getLineAsString(sortedIndex[maxChild]).toUpperCase()) > 0) {
+                maxChild++;
+            }
+
+            if (circularShifter.getLineAsString(sortedIndex[root]).toUpperCase()
+                    .compareTo(circularShifter.getLineAsString(sortedIndex[maxChild]).toUpperCase()) < 0) {
+                int tmp = sortedIndex[root];
+                sortedIndex[root] = sortedIndex[maxChild];
+                sortedIndex[maxChild] = tmp;
+                root = maxChild;
+                maxChild = root * 2 + 1;
+            } else {
+                break;
+            }
+
+        }
+    }
+
+    // get an array of strings of line after alphabetically sorted
+    public String[] getLine(int linePos) {
+        return circularShifter.getLine(sortedIndex[linePos]);
+    }
+
+    // get a line as a string at a specific position after alphabetically sorted
+    public String getLineAsString(int linePos) {
+        return circularShifter.getLineAsString(sortedIndex[linePos]);
+    }
+
+    // get the number of lines in linestorage after alphabetically sorted
+    public int getLineCount() {
+        return circularShifter.getLineCount();
     }
 
 }
