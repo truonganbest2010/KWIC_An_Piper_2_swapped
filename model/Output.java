@@ -11,7 +11,7 @@ public class Output {
         int i = 0;
 
         while (sharedData.alphabetizedIndex[i] != null) {
-            //i = filterNoise(sharedData, i); // filter noise words
+            i = filterNoise(sharedData, i); // filter noise words
             int index1 = ((sharedData.alphabetizedIndex[i].first) + (sharedData.alphabetizedIndex[i].offset));
             int index2 = (sharedData.alphabetizedIndex[i].first);
 
@@ -54,7 +54,10 @@ public class Output {
         // check if first word is noise word, if yes, return the next index
         for (int k = 0; k < noise.length; k++) {
             if (firstWord.equalsIgnoreCase(noise[k])) {
+                System.out.println("NOISE WORD FOUND: " + firstWord);
                 i++;
+
+                return i;
             }
         }
 
