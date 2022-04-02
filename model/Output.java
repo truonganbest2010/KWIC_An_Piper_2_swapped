@@ -4,32 +4,36 @@ import view.KWIC;
 
 public class Output {
 
+    String outGUI = "";
+
     public void readChars(SharedData sharedData, KWIC panel) {
 
         int i = 0;
 
         while (sharedData.alphabetizedIndex[i] != null) {
-            i = filterNoise(sharedData, i);
+            i = filterNoise(sharedData, i); // filter noise words
             int index1 = ((sharedData.alphabetizedIndex[i].first) + (sharedData.alphabetizedIndex[i].offset));
             int index2 = (sharedData.alphabetizedIndex[i].first);
 
             int k = index1; // save value of initial index1
 
             while ((index1 < sharedData.Characters.length) && (sharedData.Characters[index1] != '\n')) {
-                print(sharedData.Characters[index1]);
+                buildString(sharedData.Characters[index1]);
                 index1++;
             }
 
-            print(' ');
+            buildString(' ');
 
             while (index2 < k) {
-                print(sharedData.Characters[index2]);
+                buildString(sharedData.Characters[index2]);
                 index2++;
             }
 
-            print('\n');
+            buildString('\n');
             i++;
         }
+
+        print(panel);
 
     }
 
@@ -47,8 +51,6 @@ public class Output {
             index++;
         }
 
-        //System.out.println("first word: " + firstWord);
-
         // check if first word is noise word, if yes, return the next index
         for (int k = 0; k < noise.length; k++) {
             if (firstWord.equalsIgnoreCase(noise[k])) {
@@ -59,13 +61,16 @@ public class Output {
         return i;
     }
 
-    public void print(char i) {
-        // String outGUI = "";
+    public void buildString(char i) {
+        outGUI += i;
+    }
 
-        System.out.print(i);
+    public void print(KWIC panel) {
 
-        // panel.getTextOutputArea().setText("");
-        // panel.getTextOutputArea().setText(outGUI);
+        //System.out.print(outGUI);
+
+        panel.getTextOutputArea().setText("");
+        panel.getTextOutputArea().setText(outGUI);
     }
 
 }

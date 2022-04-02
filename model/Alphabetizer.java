@@ -16,7 +16,7 @@ public class Alphabetizer {
         int i = 0;
         int j = 0;
 
-        while(sharedData.alphabetizedIndex[i+1] != null) {
+        while(sharedData.alphabetizedIndex[i] != null) {
             while(sharedData.alphabetizedIndex[j+1] != null) {
                 index1 = ((sharedData.alphabetizedIndex[j].first) +  (sharedData.alphabetizedIndex[j].offset));
                 index2 = ((sharedData.alphabetizedIndex[j+1].first) +  (sharedData.alphabetizedIndex[j+1].offset));
@@ -27,8 +27,12 @@ public class Alphabetizer {
                 //System.out.println(a);
                 //System.out.println(b);
 
+                /*if(Character.toLowerCase(a) == Character.toLowerCase(b)) {
+
+                }*/
+
                 if(a > b) {
-                    //System.out.println("SWAPPED " + a + " AND " + b);
+                    System.out.println("SWAPPED " + a + " AND " + b);
     
                     Index temp = sharedData.alphabetizedIndex[j];
                     sharedData.alphabetizedIndex[j] = sharedData.alphabetizedIndex[j+1];
