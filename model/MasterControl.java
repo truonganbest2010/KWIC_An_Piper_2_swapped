@@ -1,36 +1,36 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import view.KWIC;
-
 public class MasterControl {
 
     private KWIC panel;
 
-    private String[] lines;
-    private ArrayList<String> linesList;
+    //private String[] lines;
+    //private ArrayList<String> linesList;
+
+    public SharedData sharedData = new SharedData();
+    public Input input = new Input();
+    public CircularShift circularShift = new CircularShift();
+    public Alphabetizer alphabetizer = new Alphabetizer();
+    public Output output = new Output();
 
     public MasterControl(KWIC kwic) {
         this.panel = kwic;
-        this.lines = new String[1000];
-        this.linesList = new ArrayList<String>();
 
         var userInput = this.panel.getTextInputArea().getText();
 
-        input(userInput);
-        circularShift();
-        alphabetizer();
-        output();
+        input.read(userInput, sharedData);
+        circularShift.prepare(sharedData);
+        alphabetizer.alphabetize(sharedData);
+        output.readChars(sharedData, kwic);
     }
 
-    private void input(String userInput) {
+    /*private void input(String userInput) {
         // Filter out all symbols aside from alphabet characters and spaces
         userInput = userInput.replaceAll("[^a-zA-Z\\s]", "");
 
         // split input into array by new line
-        lines = userInput.split("\\r?\\n|\\r");
+        //characters = userInput.split("\\r?\\n|\\r"); 
     }
 
     private void circularShift() {
@@ -69,12 +69,39 @@ public class MasterControl {
     }
 
     private void output() {
-        String outGUI = "";
-        for (int i = 0; i < lines.length; i++) {
-            // System.out.println(lines[i]);
-            outGUI += (i + 1) + ". " + lines[i] + "\n\n";
+        // filter out lines that begin with noise words
+        String[] noise = { "a", "an", "the", "and", "or", "of", "to", "be", "is", "in", "out", "by", "as", "at",
+                "off" };
+
+        // convert array to arrayList to more easily remove items 
+        ArrayList<String> linesOut =  new ArrayList<String>(Arrays.asList(lines));
+
+        // loop through each output line
+        for (int index = 0; index < linesOut.size(); index++) {
+            String[] words = linesOut.get(index).split(" ");
+            String firstWord = words[0];
+
+            // at each line, compare first word with each word in noise array
+            for (int k = 0; k < noise.length; k++) {
+                // if the first word is in the noise array, remove
+                if (firstWord.equalsIgnoreCase(noise[k])) {
+                    linesOut.remove(index);
+                    index--; //move index back to compensate for array shift
+                }
+            }
         }
+
+        String outGUI = "";
+        for (int j = 0; j < linesOut.size(); j++) {
+            outGUI += (j + 1) + ". " + linesOut.get(j) + "\n\n";
+        }
+
+        // old print loop
+        for (int j = 0; j < lines.length; j++) {
+            outGUI += (j + 1) + ". " + lines[j] + "\n\n";
+        }
+        
         panel.getTextOutputArea().setText("");
         panel.getTextOutputArea().setText(outGUI);
-    }
+    }*/
 }
