@@ -6,6 +6,8 @@ public class Input {
         // Filter out all symbols aside from alphabet characters and spaces
         userInput = userInput.replaceAll("[^a-zA-Z\\s]", "");
 
+        // eliminate input 
+
         store(userInput, sharedData);
     }
 
