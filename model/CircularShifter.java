@@ -1,17 +1,14 @@
 package model;
 
-import java.util.Arrays;
-
 public class CircularShifter {
 
     private LineStorage shifts;
 
     // initialize the circular shifter
-    public void init(LineStorage lineStorage, NoiseWordsFilter noiseWordsFilter) {
+    public void init(Alphabetizer alphabetizer, NoiseWordsFilter noiseWordsFilter) {
         shifts = new LineStorage();
-
-        for (int i = 0; i < lineStorage.getLineCount(); i++) {
-            String[] lines = lineStorage.getLine(i);
+        for (int i = 0; i < alphabetizer.getLineCount(); i++) {
+            String[] lines = alphabetizer.getLine(i);
             for (int j = 0; j < lines.length; j++) {
                 if (!noiseWordsFilter.ignoreCase(lines[j])) {
                     shifts.addEmptyLine();

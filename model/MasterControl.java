@@ -14,9 +14,11 @@ public class MasterControl {
         Output output = new Output();
 
         input.read(kwic, lineStorage);
-        circularShifter.init(lineStorage, noiseWordsFilter);
-        alphabetizer.init(circularShifter);
-        output.print(alphabetizer, kwic);
+        // circularShifter.init(lineStorage, noiseWordsFilter);
+        alphabetizer.init(lineStorage);
+        // alphabetizer.init(circularShifter);
+        circularShifter.init(alphabetizer, noiseWordsFilter);
+        output.print(circularShifter, kwic);
 
     }
 

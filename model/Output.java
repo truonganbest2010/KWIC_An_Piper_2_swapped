@@ -4,10 +4,10 @@ import view.KWIC;
 
 public class Output {
 
-    public void print(Alphabetizer alphabetizer, KWIC kwic) {
+    public void print(CircularShifter circularShifter, KWIC kwic) {
         String outGUI = "";
-        for (int i = 0; i < alphabetizer.getLineCount(); i++) {
-            outGUI += (i + 1) + ". " + alphabetizer.getLineAsString(i) + "\n\n";
+        for (int i = 0; i < circularShifter.getLineCount(); i++) {
+            outGUI += (i + 1) + ". " + circularShifter.getLineAsString(i) + "\n\n";
         }
 
         kwic.getTextOutputArea().setText("");

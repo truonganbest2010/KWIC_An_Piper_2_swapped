@@ -2,13 +2,13 @@ package model;
 
 public class Alphabetizer {
 
-    private CircularShifter circularShifter;
+    private LineStorage lineStorage;
 
-    private int sortedIndex[];
+    private int[] sortedIndex;
 
-    public void init(CircularShifter cs) {
-        circularShifter = cs;
-        sortedIndex = new int[circularShifter.getLineCount()];
+    public void init(LineStorage ls) {
+        lineStorage = ls;
+        sortedIndex = new int[ls.getLineCount()];
 
         // Initialize sortedIndex array
         for (int i = 0; i < sortedIndex.length; i++) {
@@ -30,18 +30,14 @@ public class Alphabetizer {
 
     // Heap Sort
     private void shiftDown(int root, int bottom) {
-
         int maxChild = root * 2 + 1;
-
         while (maxChild < bottom) {
-
-            if ((maxChild + 1) < bottom && circularShifter.getLineAsString(sortedIndex[maxChild + 1]).toUpperCase()
-                    .compareTo(circularShifter.getLineAsString(sortedIndex[maxChild]).toUpperCase()) > 0) {
+            if ((maxChild + 1) < bottom && lineStorage.getLineAsString(sortedIndex[maxChild + 1]).toUpperCase()
+                    .compareTo(lineStorage.getLineAsString(sortedIndex[maxChild]).toUpperCase()) > 0) {
                 maxChild++;
             }
-
-            if (circularShifter.getLineAsString(sortedIndex[root]).toUpperCase()
-                    .compareTo(circularShifter.getLineAsString(sortedIndex[maxChild]).toUpperCase()) < 0) {
+            if (lineStorage.getLineAsString(sortedIndex[root]).toUpperCase()
+                    .compareTo(lineStorage.getLineAsString(sortedIndex[maxChild]).toUpperCase()) < 0) {
                 int tmp = sortedIndex[root];
                 sortedIndex[root] = sortedIndex[maxChild];
                 sortedIndex[maxChild] = tmp;
@@ -50,23 +46,22 @@ public class Alphabetizer {
             } else {
                 break;
             }
-
         }
     }
 
     // get an array of strings of line after alphabetically sorted
     public String[] getLine(int linePos) {
-        return circularShifter.getLine(sortedIndex[linePos]);
+        return lineStorage.getLine(sortedIndex[linePos]);
     }
 
     // get a line as a string at a specific position after alphabetically sorted
     public String getLineAsString(int linePos) {
-        return circularShifter.getLineAsString(sortedIndex[linePos]);
+        return lineStorage.getLineAsString(sortedIndex[linePos]);
     }
 
     // get the number of lines in linestorage after alphabetically sorted
     public int getLineCount() {
-        return circularShifter.getLineCount();
+        return lineStorage.getLineCount();
     }
 
 }
